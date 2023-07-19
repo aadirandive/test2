@@ -4,7 +4,6 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.setGlobalPrefix('api');
 
   app.enableCors({
     origin: '*',
@@ -19,7 +18,7 @@ async function bootstrap() {
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, swaggerConfig);
-  SwaggerModule.setup('api/contact', app, document);
+  SwaggerModule.setup('contact', app, document);
   await app.listen(process.env.APP_PORT);
 }
 bootstrap();
