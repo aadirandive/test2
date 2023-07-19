@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get } from '@nestjs/common';
 import { Contact } from 'src/contact/contact.entity';
 import { ContactService } from 'src/contact/services/contact/contact.service';
 import { EmailService } from 'src/email/services/email/email.service';
@@ -19,4 +19,9 @@ export class ContactController {
 
     return 'Contact created and email sent';
   }
+
+  // @Get()
+  // getContacts() {
+  //   return this.contactService.getContacts();
+  // }
 }

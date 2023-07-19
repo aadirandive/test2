@@ -1,31 +1,24 @@
-import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ContactModule } from './contact/contact.module';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Contact } from './contact/contact.entity';
 
-import * as cors from 'cors';
-import { Connection } from 'typeorm';
+import { ConfigModule } from '@nestjs/config';
+import { configuration } from './config/app/configuration';
+import { validationSchema } from './config/app/validation.schema';
+import { TypeOrmConfigService } from './config/databse/mysql.service';
 
 @Module({
   imports: [
-    ContactModule,
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'Harsh@123',
-      database: 'arttheme',
-      entities: [Contact],
-      synchronize: true,
+    ConfigModule.forRoot({
+      envFilePath: `${process.cwd()}/src/config/env/${process.env.APP_ENV}.env`,
+      isGlobal: true,
+      load: [configuration],
+      validationSchema,
     }),
+
+    TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
+    ContactModule,
   ],
 })
-export class AppModule {
-  constructor(private readonly connection: Connection) {}
-
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(cors()).forRoutes('*');
-  }
-}
+export class AppModule {}
