@@ -20,8 +20,8 @@ export class ContactController {
     return 'Contact created and email sent';
   }
 
-  // @Get()
-  // getContacts() {
-  //   return this.contactService.getContacts();
-  // }
+  @Get()
+  getContacts() {
+    return this.contactService.getContacts();
+  }
 }
